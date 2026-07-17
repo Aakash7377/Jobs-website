@@ -40,11 +40,21 @@ def logout_view(request):
     return redirect("login")
 
 
+# def redirect_based_on_role(user):
+#     if user.role == User.ADMIN:
+#         return redirect("admin_dashboard")
+#     elif user.role == User.EMPLOYER:
+#         return redirect("employer_dashboard")
+#     else:
+#         return redirect("jobseeker_dashboard")
+
 def redirect_based_on_role(user):
     if user.role == User.ADMIN:
         return redirect("admin_dashboard")
     elif user.role == User.EMPLOYER:
-        return redirect("employer_dashboard")
+        if hasattr(user, "company"):
+            return redirect("employer_dashboard")
+        return redirect("company_setup")
     else:
         return redirect("jobseeker_dashboard")
     
