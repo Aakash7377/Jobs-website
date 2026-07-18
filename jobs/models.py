@@ -42,3 +42,16 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.applicant.username} -> {self.job.title}"
+    
+
+
+class SavedJob(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="saved_by")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="saved_jobs")
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("job", "user")  # ek user ek job ek hi baar save kare
+
+    def __str__(self):
+        return f"{self.user.username} saved {self.job.title}"

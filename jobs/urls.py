@@ -18,6 +18,8 @@ urlpatterns = [
     path("", views.job_list, name="job_list"),
     path("<int:job_id>/", views.job_detail, name="job_detail"),
     path("<int:job_id>/apply/", views.apply_job, name="apply_job"),
+    path("<int:job_id>/toggle-save/", views.toggle_save_job, name="toggle_save_job"),
+    path("saved/", views.saved_jobs_list, name="saved_jobs_list"),
     path("my-applications/", views.my_applications, name="my_applications"),
 
 

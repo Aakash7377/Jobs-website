@@ -3,6 +3,15 @@
 {% block content %}
 <div class="card p-4">
     <h3>{{ job.title }}</h3>
+       {% if request.user.role == "job_seeker" %}
+        <form method="post" action="{% url 'toggle_save_job' job.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm {% if is_saved %}btn-warning{% else %}btn-outline-secondary{% endif %}">
+                {% if is_saved %}<i class="bi bi-bookmark-fill"></i> Saved{% else %}<i class="bi bi-bookmark"></i> Save Job{% endif %}
+            </button>
+        </form>
+        {% endif %}
+    </div>
     <p class="text-primary mb-2">{{ job.company.name }}</p>
     <p class="text-muted">
         <i class="bi bi-geo-alt"></i> {{ job.location }} •

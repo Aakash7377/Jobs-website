@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Saved Jobs{% endblock %}
+{% block content %}
+<h3 class="mb-4">Saved Jobs</h3>
+
+<div class="row g-3">
+    {% for item in saved %}
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5><a href="{% url 'job_detail' item.job.id %}" class="text-decoration-none">{{ item.job.title }}</a></h5>
+            <p class="mb-1 text-primary">{{ item.job.company.name }}</p>
+            <p class="text-muted mb-2">
+                <i class="bi bi-geo-alt"></i> {{ item.job.location }} •
+                <span class="badge bg-secondary">{{ item.job.get_job_type_display }}</span>
+            </p>
+            <div class="d-flex gap-2">
+                <a href="{% url 'job_detail' item.job.id %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                <form method="post" action="{% url 'toggle_save_job' item.job.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'saved_jobs_list' %}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">You haven't saved any jobs yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

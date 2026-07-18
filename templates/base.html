@@ -50,6 +50,7 @@
             <ul class="navbar-nav align-items-lg-center gap-2">
                 {% if user.role == "job_seeker" %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'job_list' %}">Browse Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'saved_jobs_list' %}">Saved Jobs</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'my_applications' %}">My Applications</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'jobseeker_profile_setup' %}">My Profile</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'jobseeker_dashboard' %}">Dashboard</a></li>
@@ -62,6 +63,9 @@
                 {% endif %}
                 <li class="nav-item">
                     <span class="navbar-text text-light me-2">👤 {{ user.username }}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout</a>
