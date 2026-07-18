@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h3 class="mb-4">Reports & Analytics</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted">Total Users</h6>
+            <h2>{{ total_users }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted">Total Companies</h6>
+            <h2>{{ total_companies }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted">Total Jobs</h6>
+            <h2>{{ total_jobs }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted">Total Applications</h6>
+            <h2>{{ total_applications }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Users Breakdown</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    Job Seekers <span class="badge bg-primary">{{ total_job_seekers }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Employers <span class="badge bg-primary">{{ total_employers }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Admins <span class="badge bg-primary">{{ total_admins }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Companies Breakdown</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    Approved <span class="badge bg-success">{{ approved_companies }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Pending <span class="badge bg-warning text-dark">{{ pending_companies }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Jobs Breakdown</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    Active <span class="badge bg-success">{{ active_jobs }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Inactive <span class="badge bg-secondary">{{ inactive_jobs }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Applications Breakdown</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    Pending <span class="badge badge-pending">{{ pending_applications }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Shortlisted <span class="badge badge-shortlisted">{{ shortlisted_applications }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Rejected <span class="badge badge-rejected">{{ rejected_applications }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

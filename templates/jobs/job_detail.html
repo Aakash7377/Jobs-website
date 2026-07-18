@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>{{ job.title }}</h3>
+    <p class="text-primary mb-2">{{ job.company.name }}</p>
+    <p class="text-muted">
+        <i class="bi bi-geo-alt"></i> {{ job.location }} •
+        <span class="badge bg-secondary">{{ job.get_job_type_display }}</span>
+        {% if job.salary_min and job.salary_max %}
+            • ₹{{ job.salary_min }} - ₹{{ job.salary_max }}
+        {% endif %}
+    </p>
+    <hr>
+    <p>{{ job.description|linebreaks }}</p>
+
+    {% if already_applied %}
+        <div class="alert alert-info mb-0">You have already applied to this job.</div>
+    {% else %}
+        <form method="post" action="{% url 'apply_job' job.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Apply Now</button>
+        </form>
+    {% endif %}
+</div>
+<a href="{% url 'job_list' %}" class="btn btn-outline-secondary mt-3">← Back to Jobs</a>
+{% endblock %}

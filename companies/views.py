@@ -28,3 +28,45 @@ def company_setup(request):
         form = CompanyForm()
 
     return render(request, "companies/company_setup.html", {"form": form})
+
+# Approve and reject code 
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .forms import CompanyForm
+from .models import Company
+
+
+def is_admin(user):
+    return user.is_authenticated and user.role == "admin"
+
+
+@login_required
+@user_passes_test(is_admin, login_url="jobseeker_dashboard")
+def manage_companies(request):
+    pending_companies = Company.objects.filter(is_approved=False)
+    approved_companies = Company.objects.filter(is_approved=True)
+    return render(request, "companies/manage_companies.html", {
+        "pending_companies": pending_companies,
+        "approved_companies": approved_companies,
+    })
+
+
+@login_required
+@user_passes_test(is_admin, login_url="jobseeker_dashboard")
+def approve_company(request, company_id):
+    company = get_object_or_404(Company, id=company_id)
+    company.is_approved = True
+    company.save()
+    messages.success(request, f"{company.name} has been approved.")
+    return redirect("manage_companies")
+
+
+@login_required
+@user_passes_test(is_admin, login_url="jobseeker_dashboard")
+def reject_company(request, company_id):
+    company = get_object_or_404(Company, id=company_id)
+    company.delete()
+    messages.success(request, f"{company.name} has been rejected and removed.")
+    return redirect("manage_companies")

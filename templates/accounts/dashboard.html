@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
-    <h2>Welcome, {{ request.user.username }}!</h2>
-    <p>Your role: {{ role }}</p>
-    <a href="{% url 'logout' %}">Logout</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>Welcome, {{ request.user.username }} 👋</h3>
+    <p class="text-muted">Role: <span class="badge bg-primary">{{ role }}</span></p>
+
+    <div class="d-flex gap-2 flex-wrap mt-3">
+        {% if role == "Admin" %}
+            <a href="{% url 'manage_companies' %}" class="btn btn-outline-dark">Manage Companies</a>
+             <a href="{% url 'manage_users' %}" class="btn btn-outline-dark">Manage Users</a>
+             <a href="{% url 'manage_jobs' %}" class="btn btn-outline-dark">Manage Jobs</a>
+             <a href="{% url 'view_all_applications' %}" class="btn btn-outline-dark">View Applications</a>
+             <a href="{% url 'reports' %}" class="btn btn-outline-dark">Reports</a>
+        {% endif %}
+        {% if role == "Employer" %}
+            <a href="{% url 'my_jobs' %}" class="btn btn-outline-primary">My Posted Jobs</a>
+        {% endif %}
+        {% if role == "Job Seeker" %}
+            <a href="{% url 'job_list' %}" class="btn btn-outline-primary">Browse Jobs</a>
+            <a href="{% url 'my_applications' %}" class="btn btn-outline-secondary">My Applications</a>
+            <a href="{% url 'jobseeker_profile_setup' %}" class="btn btn-outline-success">My Profile</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

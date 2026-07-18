@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Manage Companies{% endblock %}
+{% block content %}
+<h3 class="mb-4">Manage Companies</h3>
+
+<h5>Pending Approval ({{ pending_companies|length }})</h5>
+<div class="card p-3 mb-4">
+    {% if pending_companies %}
+    <table class="table table-hover align-middle mb-0">
+        <thead><tr><th>Name</th><th>Owner</th><th>Website</th><th>Description</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for company in pending_companies %}
+            <tr>
+                <td>{{ company.name }}</td>
+                <td>{{ company.owner.username }}</td>
+                <td>{{ company.website }}</td>
+                <td>{{ company.description|truncatewords:10 }}</td>
+                <td>
+                    <a href="{% url 'approve_company' company.id %}" class="btn btn-sm btn-success">Approve</a>
+                    <a href="{% url 'reject_company' company.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Reject this company?');">Reject</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted mb-0">No pending companies.</p>
+    {% endif %}
+</div>
+
+<h5>Approved Companies ({{ approved_companies|length }})</h5>
+<div class="card p-3">
+    {% if approved_companies %}
+    <table class="table table-hover align-middle mb-0">
+        <thead><tr><th>Name</th><th>Owner</th><th>Website</th></tr></thead>
+        <tbody>
+        {% for company in approved_companies %}
+            <tr><td>{{ company.name }}</td><td>{{ company.owner.username }}</td><td>{{ company.website }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted mb-0">No approved companies yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

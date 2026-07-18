@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}All Applications{% endblock %}
+{% block content %}
+<h3 class="mb-4">All Applications</h3>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="q" class="form-control" placeholder="Search by job, company, or applicant..." value="{{ query }}">
+    </div>
+    <div class="col-md-3">
+        <select name="status" class="form-select">
+            <option value="">All Status</option>
+            <option value="pending" {% if status_filter == "pending" %}selected{% endif %}>Pending</option>
+            <option value="shortlisted" {% if status_filter == "shortlisted" %}selected{% endif %}>Shortlisted</option>
+            <option value="rejected" {% if status_filter == "rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{% url 'view_all_applications' %}" class="btn btn-outline-secondary">Clear</a>
+    </div>
+</form>
+
+<div class="card p-3">
+    {% if applications %}
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Applicant</th>
+                <th>Job</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied On</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for app in applications %}
+            <tr>
+                <td>{{ app.applicant.username }}<br><small class="text-muted">{{ app.applicant.email }}</small></td>
+                <td>{{ app.job.title }}</td>
+                <td>{{ app.job.company.name }}</td>
+                <td><span class="badge badge-{{ app.status }}">{{ app.get_status_display }}</span></td>
+                <td>{{ app.applied_at|date:"d M Y, h:i A" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted mb-0">No applications found.</p>
+    {% endif %}
+</div>
+{% endblock %}

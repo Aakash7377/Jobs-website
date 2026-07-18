@@ -41,8 +41,19 @@ INSTALLED_APPS = [
     'jobs',
     'applications',
     'dashboard',
-    'companies'
+    'companies',
+    'jobseekers',
 ]
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -131,3 +142,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Add for resume 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
