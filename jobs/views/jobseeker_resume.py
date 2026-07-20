@@ -50,3 +50,15 @@ def apply_job(request, job_id):
 def my_applications(request):
     applications = Application.objects.filter(applicant=request.user).select_related("job", "job__company")
     return render(request, "jobs/my_applications.html", {"applications": applications})
+
+# resume download
+
+@login_required
+def job_applicants(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    if job.company.user != request.user:
+        messages.error(request, "Access denied.")
+        return redirect("my_jobs")
+
+    applications = job.applications.select_related("applicant", "applicant__jobseeker_profile")
+    return render(request, "jobs/job_applicants.html", {"job": job, "applications": applications})

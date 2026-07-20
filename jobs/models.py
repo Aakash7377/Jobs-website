@@ -22,7 +22,7 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} at {self.company.name}"
+        return f"{self.title} at {self.company.company_name}"
 
 
 class Application(models.Model):

@@ -11,8 +11,36 @@
             <tr>
                 <td>{{ app.applicant.username }}</td>
                 <td>{{ app.applicant.email }}</td>
+                  <td>
+                    {% if app.applicant.jobseeker_profile.resume %}
+                    <a href="{{ app.applicant.jobseeker_profile.resume.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                        <i class="bi bi-eye"></i> View
+                    </a>
+                        <a href="{{ app.applicant.jobseeker_profile.resume.url }}" class="btn btn-sm btn-outline-primary" target="_blank" download>
+                            <i class="bi bi-download"></i> Download
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Not uploaded</span>
+                    {% endif %}
+                </td>
                 <td><span class="badge badge-{{ app.status }}">{{ app.get_status_display }}</span></td>
                 <td>{{ app.applied_at|date:"d M Y, h:i A" }}</td>
+                <td>
+                    <form method="post" action="{% url 'update_application_status' app.id %}" class="d-flex gap-1">
+                        {% csrf_token %}
+                        <button type="submit" name="status" value="shortlisted" class="btn btn-sm btn-outline-success" {% if app.status == "shortlisted" %}disabled{% endif %}>
+                            Shortlist
+                        </button>
+                        <button type="submit" name="status" value="rejected" class="btn btn-sm btn-outline-danger" {% if app.status == "rejected" %}disabled{% endif %}>
+                            Reject
+                        </button>
+                        {% if app.status != "pending" %}
+                        <button type="submit" name="status" value="pending" class="btn btn-sm btn-outline-secondary">
+                            Reset
+                        </button>
+                        {% endif %}
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

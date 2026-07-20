@@ -12,7 +12,7 @@
         </form>
         {% endif %}
     </div>
-    <p class="text-primary mb-2">{{ job.company.name }}</p>
+    <p class="text-primary mb-2">{{ job.company.company_name }}</p>
     <p class="text-muted">
         <i class="bi bi-geo-alt"></i> {{ job.location }} •
         <span class="badge bg-secondary">{{ job.get_job_type_display }}</span>

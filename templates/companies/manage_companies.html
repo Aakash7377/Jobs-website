@@ -11,8 +11,8 @@
         <tbody>
         {% for company in pending_companies %}
             <tr>
-                <td>{{ company.name }}</td>
-                <td>{{ company.owner.username }}</td>
+                <td>{{ company.company_name }}</td>
+                <td>{{ company.user.username }}</td>
                 <td>{{ company.website }}</td>
                 <td>{{ company.description|truncatewords:10 }}</td>
                 <td>
@@ -35,7 +35,7 @@
         <thead><tr><th>Name</th><th>Owner</th><th>Website</th></tr></thead>
         <tbody>
         {% for company in approved_companies %}
-            <tr><td>{{ company.name }}</td><td>{{ company.owner.username }}</td><td>{{ company.website }}</td></tr>
+            <tr><td>{{ company.company_name }}</td><td>{{ company.user.username }}</td><td>{{ company.website }}</td></tr>
         {% endfor %}
         </tbody>
     </table>

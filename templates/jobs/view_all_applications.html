@@ -38,7 +38,7 @@
             <tr>
                 <td>{{ app.applicant.username }}<br><small class="text-muted">{{ app.applicant.email }}</small></td>
                 <td>{{ app.job.title }}</td>
-                <td>{{ app.job.company.name }}</td>
+                <td>{{ app.job.company.company_name }}</td>
                 <td><span class="badge badge-{{ app.status }}">{{ app.get_status_display }}</span></td>
                 <td>{{ app.applied_at|date:"d M Y, h:i A" }}</td>
             </tr>

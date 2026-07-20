@@ -47,7 +47,7 @@ def my_jobs(request):
 @login_required
 def job_applicants(request, job_id):
     job = get_object_or_404(Job, id=job_id)
-    if job.company.owner != request.user:
+    if job.company.user != request.user:
         messages.error(request, "Access denied.")
         return redirect("my_jobs")
 

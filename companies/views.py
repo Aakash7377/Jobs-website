@@ -20,7 +20,7 @@ def company_setup(request):
         form = CompanyForm(request.POST)
         if form.is_valid():
             company = form.save(commit=False)
-            company.owner = request.user
+            company.user = request.user
             company.save()
             messages.success(request, "Company profile created! Waiting for admin approval.")
             return redirect("employer_dashboard")
@@ -59,7 +59,7 @@ def approve_company(request, company_id):
     company = get_object_or_404(Company, id=company_id)
     company.is_approved = True
     company.save()
-    messages.success(request, f"{company.name} has been approved.")
+    messages.success(request, f"{company.company_name} has been approved.")
     return redirect("manage_companies")
 
 
@@ -68,5 +68,26 @@ def approve_company(request, company_id):
 def reject_company(request, company_id):
     company = get_object_or_404(Company, id=company_id)
     company.delete()
-    messages.success(request, f"{company.name} has been rejected and removed.")
+    messages.success(request, f"{company.company_name} has been rejected and removed.")
     return redirect("manage_companies")
+
+# add logo and location
+
+@login_required
+def company_edit(request):
+    if not hasattr(request.user, "company"):
+        messages.error(request, "You don't have a company profile yet.")
+        return redirect("company_setup")
+
+    company = request.user.company
+
+    if request.method == "POST":
+        form = CompanyForm(request.POST, request.FILES, instance=company)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Company profile updated successfully!")
+            return redirect("employer_dashboard")
+    else:
+        form = CompanyForm(instance=company)
+
+    return render(request, "companies/company_edit.html", {"form": form})

@@ -15,6 +15,7 @@
         {% endif %}
         {% if role == "Employer" %}
             <a href="{% url 'my_jobs' %}" class="btn btn-outline-primary">My Posted Jobs</a>
+            <a href="{% url 'company_edit' %}" class="btn btn-outline-success">Edit Company Profile</a>
         {% endif %}
         {% if role == "Job Seeker" %}
             <a href="{% url 'job_list' %}" class="btn btn-outline-primary">Browse Jobs</a>

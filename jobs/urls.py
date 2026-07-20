@@ -5,7 +5,11 @@ urlpatterns = [
     # Employer
     path("post/", views.post_job, name="post_job"),
     path("my-jobs/", views.my_jobs, name="my_jobs"),
+    path("<int:job_id>/edit/", views.edit_job, name="edit_job"),
+    path("<int:job_id>/delete/", views.delete_employer_job, name="delete_employer_job"),
     path("<int:job_id>/applicants/", views.job_applicants, name="job_applicants"),
+    path("application/<int:application_id>/update-status/", views.update_application_status, name="update_application_status"),
+
 
     # Admin
     path("manage/", views.manage_jobs, name="manage_jobs"),
