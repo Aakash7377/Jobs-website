@@ -3,34 +3,39 @@
 {% block content %}
 <div class="card p-4">
     <h3>{{ job.title }}</h3>
-       {% if request.user.role == "job_seeker" %}
-        <form method="post" action="{% url 'toggle_save_job' job.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-sm {% if is_saved %}btn-warning{% else %}btn-outline-secondary{% endif %}">
-                {% if is_saved %}<i class="bi bi-bookmark-fill"></i> Saved{% else %}<i class="bi bi-bookmark"></i> Save Job{% endif %}
-            </button>
-        </form>
-        {% endif %}
-    </div>
-    <p class="text-primary mb-2">{{ job.company.company_name }}</p>
-    <p class="text-muted">
-        <i class="bi bi-geo-alt"></i> {{ job.location }} •
-        <span class="badge bg-secondary">{{ job.get_job_type_display }}</span>
-        {% if job.salary_min and job.salary_max %}
-            • ₹{{ job.salary_min }} - ₹{{ job.salary_max }}
-        {% endif %}
-    </p>
-    <hr>
-    <p>{{ job.description|linebreaks }}</p>
-
-    {% if already_applied %}
-        <div class="alert alert-info mb-0">You have already applied to this job.</div>
-    {% else %}
-        <form method="post" action="{% url 'apply_job' job.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Apply Now</button>
-        </form>
+    {% if request.user.role == "job_seeker" %}
+    <form method="post" action="{% url 'toggle_save_job' job.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm {% if is_saved %}btn-warning{% else %}btn-outline-secondary{% endif %}">
+            {% if is_saved %}<i class="bi bi-bookmark-fill"></i> Saved{% else %}<i class="bi bi-bookmark"></i> Save
+            Job{% endif %}
+        </button>
+    </form>
     {% endif %}
+</div>
+<p class="text-muted">
+    <i class="bi bi-geo-alt"></i> {{ job.location }} •
+    <span class="badge bg-secondary">{{ job.get_job_type_display }}</span> •
+    <span class="badge bg-info text-dark">{{ job.get_category_display }}</span>
+    {% if job.experience %} • {{ job.experience }} experience{% endif %}
+    {% if job.salary_min and job.salary_max %}
+    • ₹{{ job.salary_min }} - ₹{{ job.salary_max }}
+    {% endif %}
+</p>
+{% if job.deadline %}
+<p class="text-danger"><i class="bi bi-calendar-x"></i> Apply before: {{ job.deadline|date:"d M Y" }}</p>
+{% endif %}
+<hr>
+<p>{{ job.description|linebreaks }}</p>
+
+{% if already_applied %}
+<div class="alert alert-info mb-0">You have already applied to this job.</div>
+{% else %}
+<form method="post" action="{% url 'apply_job' job.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Apply Now</button>
+</form>
+{% endif %}
 </div>
 <a href="{% url 'job_list' %}" class="btn btn-outline-secondary mt-3">← Back to Jobs</a>
 {% endblock %}

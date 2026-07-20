@@ -12,6 +12,13 @@
                 <td>{{ app.applicant.username }}</td>
                 <td>{{ app.applicant.email }}</td>
                   <td>
+                    {% if app.cover_letter %}
+                    <span data-bs-toggle="tooltip" title="{{ app.cover_letter }}">{{ app.cover_letter|truncatewords:8 }}</span>
+                {% else %}
+                    <span class="text-muted">—</span>
+                {% endif %}
+                </td>
+                <td>
                     {% if app.applicant.jobseeker_profile.resume %}
                     <a href="{{ app.applicant.jobseeker_profile.resume.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
                         <i class="bi bi-eye"></i> View
