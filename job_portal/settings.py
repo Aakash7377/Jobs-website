@@ -1,3 +1,7 @@
+
+import email.charset
+email.charset.add_charset('utf-8', email.charset.SHORTEST, None, 'utf-8')
+
 """
 Django settings for job_portal project.
 
@@ -11,6 +15,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,7 +141,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -147,3 +154,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@jobportal.com'
+
+# Password reset link ka expiry time (seconds) - default 3 din hai
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hour

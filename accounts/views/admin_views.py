@@ -56,15 +56,21 @@ def reports_view(request):
         "total_job_seekers": User.objects.filter(role="job_seeker").count(),
         "total_employers": User.objects.filter(role="employer").count(),
         "total_admins": User.objects.filter(role="admin").count(),
+
         "total_companies": Company.objects.count(),
         "approved_companies": Company.objects.filter(is_approved=True).count(),
         "pending_companies": Company.objects.filter(is_approved=False).count(),
+
         "total_jobs": Job.objects.count(),
         "active_jobs": Job.objects.filter(is_active=True).count(),
         "inactive_jobs": Job.objects.filter(is_active=False).count(),
+
         "total_applications": Application.objects.count(),
         "pending_applications": Application.objects.filter(status="pending").count(),
         "shortlisted_applications": Application.objects.filter(status="shortlisted").count(),
         "rejected_applications": Application.objects.filter(status="rejected").count(),
+
+        "recent_jobs": Job.objects.select_related("company").order_by("-created_at")[:5],
+        "recent_users": User.objects.order_by("-date_joined")[:5],
     }
     return render(request, "accounts/reports.html", context)
